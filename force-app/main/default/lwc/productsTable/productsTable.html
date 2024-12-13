@@ -1,0 +1,111 @@
+<template>
+    <lightning-card title="Product List by Family">
+        <template if:true={familyList}>
+            <ul>
+                <template for:each={familyList} for:item="family">
+                    <li key={family.name}>
+                        <!-- Family Header -->
+                        <div class="slds-m-around_medium slds-box slds-box_link" data-family={family.name} onclick={toggleFamily}>
+                            <span>{family.name}</span>
+                        </div>
+
+                        <!-- Products List for the Family -->
+                        <template if:true={family.isExpanded}>
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Product Name">Product Name</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Price">Price</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Quantity">Quantity</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Stock">Stock</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Action">Action</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={expandedProducts} for:item="product">
+                                        <tr key={product.name}>
+                                            <td>
+                                                <div class="slds-truncate" title={product.name}>{product.name}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={product.formattedPrice}>{product.formattedPrice}</div>
+                                            </td>
+                                            <td>
+                                                <input type="number" data-quantity={product.name} min="1" value="1" />
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title="Stock">{product.stockAmount}</div>
+                                            </td>
+                                            <td>
+                                                <lightning-button label="Add to Cart" data-name={product.name} data-price={product.price} onclick={handleAddToCart}></lightning-button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                    </li>
+                </template>
+            </ul>
+        </template>
+        <template if:true={errorMessage}>
+            <p>{errorMessage}</p>
+        </template>
+    </lightning-card>
+
+    <!-- 장바구니 섹션 -->
+    <lightning-card title="장바구니" icon-name="custom:custom93">
+        <template if:true={hasCartItems}>
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={cartItems} for:item="cartItem">
+                        <tr key={cartItem.name}>
+                            <td>{cartItem.name}</td>
+                            <td>{cartItem.formattedPrice}</td>
+                            <td>
+                                <input type="number" data-cart-quantity={cartItem.name} min="1" value={cartItem.quantity} />
+                            </td>
+                            <td>{cartItem.formattedTotalPrice}</td>
+                            <td>
+                                <lightning-button label="Update Quantity" data-name={cartItem.name} onclick={handleUpdateQuantity}></lightning-button>
+                                <lightning-button label="Remove" data-name={cartItem.name} onclick={handleRemoveFromCart}></lightning-button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            <div class="slds-m-top_medium">
+                <strong>Total Cart Price: {totalCartPriceTwo}</strong>
+            </div>
+            
+            <!-- 새로운 OrderButton 컴포넌트 사용 -->
+            <!-- <c-order-button 
+                cart-items={cartItems} 
+                total-cart-price={totalCartPrice}
+                account-id={accountId}
+                onplaceorder={handlePlaceOrder}>
+            </c-order-button> -->
+            <lightning-button label="주문하기" variant="brand" onclick={handlePlaceOrder}></lightning-button>
+
+        </template>
+    </lightning-card>
+</template>

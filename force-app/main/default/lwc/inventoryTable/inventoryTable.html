@@ -1,0 +1,62 @@
+<template>
+    <lightning-card title="Product List by Category">
+        <template if:true={categoryList}>
+            <ul>
+                <template for:each={categoryList} for:item="category">
+                    <li key={category.name}>
+                        <!-- Category Header -->
+                        <div class="slds-m-around_medium slds-box slds-box_link" data-category={category.name} onclick={toggleCategory}>
+                            <span>{category.name}</span>
+                        </div>
+
+                        <!-- Inventories List for the Category -->
+                        <template if:true={category.isExpanded}>
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Product Name">Product Name</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Price">Price</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Quantity">Quantity</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Stock">Stock</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Action">Action</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={expandedInventories} for:item="inventory">
+                                        <tr key={inventory.id}>
+                                            <td>
+                                                <div class="slds-truncate" title={inventory.name}>{inventory.name}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={inventory.price}>${inventory.price}</div>
+                                            </td>
+                                            <td>
+                                                <input type="number" min="1" value="1" />
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={inventory.stock}>{inventory.stock}</div>
+                                            </td>
+                                            <td>
+                                                <lightning-button label="Add to Cart" data-id={inventory.id} onclick={handleAddToCart}></lightning-button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                    </li>
+                </template>
+            </ul>
+        </template>
+    </lightning-card>
+</template>
