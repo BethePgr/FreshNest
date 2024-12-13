@@ -1,0 +1,19 @@
+<template>
+    <lightning-card title="MVP 혜택" icon-name="custom:custom63">
+        <div class="slds-m-around_medium benefit-container">
+            <template for:each={benefits} for:item="benefit">
+                <div key={benefit.range} class="slds-box slds-m-bottom_medium benefit-box">
+                    <div class="slds-grid slds-wrap slds-align_absolute-center">
+                        <div class="slds-col slds-size_1-of-3 image-container">
+                            <img src={benefit.image} alt="Benefit Image" class="benefit-image" />
+                        </div>
+                        <div class="slds-col slds-size_2-of-3 text-container">
+                            <h3 class="slds-text-heading_medium benefit-heading">{benefit.range}</h3>
+                            <p class="slds-text-body_regular benefit-description">{benefit.discount}</p>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
