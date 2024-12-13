@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="Delivery Address Map" icon-name="utility:map">
+        <template if:true={mapMarkers.length}>
+            <lightning-map 
+                map-markers={mapMarkers} 
+                zoom-level="15" 
+                list-view="visible" 
+                markers-title="Delivery Location">
+            </lightning-map>
+        </template>
+
+        <template if:false={mapMarkers.length}>
+            <p>No location to display. Please enter a valid address and refresh.</p>
+        </template>
+    </lightning-card>
+</template>
